@@ -1,17 +1,335 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Cabinet Showroom Gallery | Bespoke Joinery</title>
-    <meta name="description" content="Dynamic cabinetry and joinery showroom gallery with easy photo management, category filtering, and specs." />
+
+<head>
+    <meta charset="utf-8">
+    <title>AU Cabinet | Custom Luxury Joinery &amp; Kitchens</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    
+    <!-- Favicon (kept original filename) -->
+    <link rel="icon" href="favicon2.ico" type="image/x-icon">
+
+    <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  </head>
-  <body class="bg-neutral-950 text-neutral-100 antialiased selection:bg-amber-500 selection:text-neutral-950">
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
-</html>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet"> 
 
+    <!-- Bootstrap 5 CSS via CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- FontAwesome & Bootstrap Icons via CDN -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-gold: #c5a059;
+            --dark-bg: #0f0f0f;
+            --card-bg: #1a1a1a;
+            --text-light: #e0e0e0;
+            --text-muted: #a0a0a0;
+        }
+
+        body { 
+            background-color: var(--dark-bg); 
+            color: var(--text-light); 
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1, h2, h3, h4, .navbar-brand { 
+            font-family: 'Playfair Display', serif; 
+            color: #fff; 
+        }
+        
+        .accent { 
+            color: var(--primary-gold); 
+        }
+
+        a { 
+            text-decoration: none; 
+            transition: 0.3s ease; 
+        }
+        
+        /* Navbar */
+        .navbar-dark { 
+            background: #000 !important; 
+            border-bottom: 1px solid #222; 
+        }
+
+        .nav-link { 
+            text-transform: uppercase; 
+            letter-spacing: 1px; 
+            font-size: 13px; 
+            color: #e0e0e0 !important;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--primary-gold) !important;
+        }
+        
+        /* Hero Carousel / Banner */
+        .hero-banner { 
+            position: relative;
+            height: 85vh; 
+            min-height: 500px; 
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-banner img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.65);
+            z-index: 2;
+        }
+
+        .carousel-text { 
+            position: relative;
+            z-index: 3;
+            background: rgba(0,0,0,0.75); 
+            padding: 40px; 
+            border-bottom: 4px solid var(--primary-gold);
+            backdrop-filter: blur(4px);
+        }
+
+        /* Service Cards */
+        .service-item { 
+            background: var(--card-bg); 
+            border: 1px solid #222; 
+            transition: transform 0.4s ease, border-color 0.4s ease; 
+            overflow: hidden; 
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .service-item:hover { 
+            border-color: var(--primary-gold); 
+            transform: translateY(-8px); 
+        }
+
+        .service-img { 
+            overflow: hidden; 
+            height: 250px; 
+            background: #111;
+        }
+
+        .service-img img { 
+            object-fit: cover; 
+            width: 100%; 
+            height: 100%; 
+            transition: transform 0.5s ease; 
+        }
+
+        .service-item:hover .service-img img {
+            transform: scale(1.05);
+        }
+
+        .btn-gold { 
+            background: var(--primary-gold); 
+            color: #000 !important; 
+            border-radius: 0; 
+            font-weight: 600; 
+            padding: 12px 30px; 
+            border: none; 
+            display: inline-block;
+        }
+
+        .btn-gold:hover { 
+            background: #e2bd78; 
+            color: #000 !important; 
+        }
+
+        /* Section Title Styling */
+        .section-title { 
+            position: relative; 
+            display: inline-block; 
+            padding-bottom: 15px; 
+            margin-bottom: 25px; 
+        }
+
+        .section-title::after { 
+            content: ""; 
+            position: absolute; 
+            width: 50px; 
+            height: 2px; 
+            background: var(--primary-gold); 
+            bottom: 0; 
+            left: 50%; 
+            margin-left: -25px; 
+        }
+
+        /* Contact Footer */
+        .footer { 
+            background: #000 !important; 
+            border-top: 1px solid #222; 
+            padding: 80px 0 40px; 
+        }
+
+        .contact-item { 
+            padding: 15px; 
+            transition: 0.3s; 
+        }
+
+        .contact-item i { 
+            font-size: 1.6rem; 
+            margin-bottom: 12px; 
+            display: block; 
+        }
+        
+        .contact-link-tel { 
+            color: #fff; 
+            font-size: 1.3rem; 
+            font-weight: 400; 
+            letter-spacing: 1px; 
+        }
+
+        .contact-link-email { 
+            color: #fff; 
+            font-size: 0.95rem; 
+            font-weight: 400; 
+            letter-spacing: 1px; 
+        } 
+        
+        .contact-link-tel:hover, .contact-link-email:hover { 
+            color: var(--primary-gold); 
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top p-0 px-4 px-lg-5">
+        <a href="index.html" class="navbar-brand">
+            <h2 class="m-0 text-white">AU <span class="accent">CABINET</span></h2>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav ms-auto py-4 py-lg-0">
+                <a href="index.html" class="nav-item nav-link active">Home</a>
+                <a href="gallery.html" class="nav-item nav-link">Showroom</a>
+            </div>
+            <a href="mailto:Info@AUCabinet.au?subject=Quote%20Request" class="btn btn-gold d-none d-lg-block ms-3">GET A QUOTE</a>
+        </div>
+    </nav>
+
+    <!-- Header Hero Banner -->
+    <div class="container-fluid p-0 mb-5">
+        <div class="hero-banner">
+            <img class="img-fluid" src="img/carousel-1.jpg" alt="Kitchen Design" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&q=80&w=1600';">
+            <div class="hero-overlay"></div>
+            <div class="container text-center">
+                <div class="row justify-content-center">
+                    <div class="col-10 col-lg-8 carousel-text">
+                        <h5 class="accent text-uppercase mb-3" style="letter-spacing: 5px;">Premium Joinery</h5>
+                        <h1 class="display-3 text-white mb-4">Modern Kitchen Renovations</h1>
+                        <a href="gallery.html" class="btn btn-gold py-md-3 px-md-5">VIEW SHOWROOM</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Service Section -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="text-center">
+                <h5 class="section-title accent text-uppercase">Our Expertise</h5>
+                <h1 class="mb-5">Tailored Joinery Services</h1>
+            </div>
+            <div class="row g-4">
+                <!-- Service Item 1 -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="service-item">
+                        <div class="service-img">
+                            <img src="img/service-3.jpg" alt="Kitchens" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1556909212-d5b604d0c90d?auto=format&fit=crop&q=80&w=800';">
+                        </div>
+                        <div class="p-4 text-center">
+                            <h4 class="mb-3">Kitchen Renovations</h4>
+                            <p class="text-muted small">Full remodels and facelifts using premium materials.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service Item 2 -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="service-item">
+                        <div class="service-img">
+                            <img src="img/service-4.jpg" alt="Hardware" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&q=80&w=800';">
+                        </div>
+                        <div class="p-4 text-center">
+                            <h4 class="mb-3">Premium Materials</h4>
+                            <p class="text-muted small">Trusted hardware and high-end finishes built to last.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service Item 3 -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="service-item">
+                        <div class="service-img">
+                            <img src="img/service-2.jpg" alt="Design" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=800';">
+                        </div>
+                        <div class="p-4 text-center">
+                            <h4 class="mb-3">3D Planning</h4>
+                            <p class="text-muted small">Precision architectural software for your unique space.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Refined Contact Footer -->
+    <footer class="footer">
+        <div class="container text-center">
+            <div class="mx-auto mb-5">
+                <h1 class="display-6 text-white">Let's Design Your Project</h1>
+                <div style="width: 40px; height: 1px; background: var(--primary-gold); margin: 20px auto 40px;"></div>
+            </div>
+            
+            <div class="row g-4 justify-content-center">
+                <div class="col-lg-4 contact-item">
+                    <i class="fa fa-phone-alt accent"></i>
+                    <h5 class="text-uppercase text-muted mb-2" style="font-size: 0.65rem; letter-spacing: 2px;">Direct Line</h5>
+                    <a href="tel:+61412270000" class="contact-link-tel">+61 412 270 000</a>
+                </div>
+                
+                <div class="col-lg-4 contact-item">
+                    <i class="fa fa-envelope accent"></i>
+                    <h5 class="text-uppercase text-muted mb-2" style="font-size: 0.65rem; letter-spacing: 2px;">Email Inquiry</h5>
+                    <a href="mailto:Info@AUCabinet.au" class="contact-link-email">Info@AUCabinet.au</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="container border-top border-secondary mt-5 pt-4 text-center">
+            <p class="m-0 small text-muted text-uppercase" style="letter-spacing: 1px; font-size: 0.65rem;">
+                &copy; 2024 AU Cabinet. All Rights Reserved. <span class="ms-3">ABN 99 894 945 721</span>
+            </p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 Bundle JS via CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

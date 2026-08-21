@@ -1,6 +1,0 @@
-{
-  "name": "Cabinet Showroom Gallery",
-  "description": "Dynamic cabinetry and joinery showroom gallery with easy photo management, category filtering, material tags, and lightbox preview.",
-  "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
-}
